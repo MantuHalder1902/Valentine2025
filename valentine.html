@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>For My Love</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600&display=swap');
+body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;height:100vh;background:#000;font-family:'Poppins',sans-serif;overflow:hidden;touch-action:none}
+.screen{display:none;flex-direction:column;align-items:center;width:100%;height:100%;justify-content:center;position:absolute;color:#fff;text-align:center;z-index:10}
+.active{display:flex}
+.btn-pink{background:#ff69b4;color:#fff;border:none;padding:12px 25px;border-radius:25px;font-weight:700;cursor:pointer;margin-top:15px;transition:.2s ease-out}
+.heart-rain{position:fixed;top:-10%;font-size:24px;color:red;user-select:none;z-index:9999!important;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.packet-container{position:relative;width:340px;height:550px;background:#2b1600;border-radius:15px;overflow:hidden}
+.full-packet{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(145deg,#4b0082,#6a0dad);z-index:100;transition:transform 1.2s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;align-items:center}
+.unzip-zone{width:85%;height:55px;background:rgba(0,0,0,.4);margin-top:80px;position:relative;border-radius:30px;border:2px dashed gold;display:flex;align-items:center}
+.cat-slider{position:absolute;left:5px;font-size:30px;cursor:pointer;z-index:110}
+.chocolate-grid{position:absolute;top:0;left:0;width:100%;height:100%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(8,1fr);gap:6px;padding:15px;background:#4d2600;box-sizing:border-box;z-index:10}
+.choc-slice{background:#5d2e00;border-radius:6px;box-shadow:inset -3px -3px 6px rgba(0,0,0,.6)}
+.heart-mold{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;background:#2b1600;border-radius:50%;display:flex;justify-content:center;align-items:center;z-index:50;box-shadow:inset 0 0 25px #000;border:4px solid #3d1f00}
+.bubbly-heart{width:32px;height:32px;background:#ffb6c1;clip-path:path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');transform:scale(5.5);animation:rotateSilk 4s ease-in-out infinite;cursor:pointer}
+.btn-group{display:flex;gap:40px;justify-content:center;margin-top:30px;position:relative;width:100%;height:60px}
+.hint-text{color:#ff69b4;font-size:1rem;height:20px;opacity:0;transition:.3s;margin-bottom:5px;font-weight:700}
+#up-arrow{font-size:40px;color:pink;animation:bounce 1s infinite;display:none;margin-top:15px}
+.brown-sheet{background:#fdf5e6;color:#3d2b1f;padding:25px;width:85%;border-radius:10px;transform:scale(0);transition:.8s}
+.cursive{font-family:'Dancing Script',cursive;font-size:1.3rem}
+#final{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.8rem;color:#fff;white-space:nowrap;z-index:10000;text-shadow:0 0 10px #ff69b4,0 0 20px #ff69b4,0 0 40px #ff1493;animation:smoothRiseZoom 3.5s forwards,glowPulse 2s infinite alternate 3.5s}
+.teddy-scene{position:relative;width:100%;height:450px;display:flex;justify-content:center;align-items:center}
+.teddy-container{position:relative;width:360px;height:360px;display:flex;justify-content:center;align-items:center}
+.main-teddy{font-size:260px;position:absolute;z-index:1}
+.holding-paper{position:absolute;width:240px;height:80px;background:#fff;bottom:90px;z-index:2;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;border:2px solid #eee;padding:0 35px;box-sizing:border-box}
+.paper-text{color:#000;font-weight:700;font-size:14px;text-align:center;width:100%;white-space:nowrap}
+.teddy-paw{position:absolute;width:75px;height:75px;background:#9c6644;border-radius:50%;z-index:3;bottom:95px;box-shadow:inset -5px -5px 10px rgba(0,0,0,.3)}
+.paw-l{left:25px}
+.paw-r{right:25px}
+.gift-wrapper{position:relative;width:160px;height:160px;cursor:pointer;perspective:1000px;margin-bottom:20px}
+.gift-box-body{position:absolute;bottom:0;width:100%;height:100px;background:linear-gradient(135deg,#e91e63 0,#ad1457 100%);border-radius:8px;z-index:10;box-shadow:0 15px 35px rgba(0,0,0,.5);display:flex;justify-content:center}
+.box-ribbon{width:30px;height:100%;background:linear-gradient(to right,#ffd700,#fbc02d);box-shadow:0 0 5px rgba(0,0,0,.2)}
+.gift-lid{position:absolute;top:25px;left:-5%;width:110%;height:45px;background:linear-gradient(135deg,#f06292 0,#c2185b 100%);border-radius:6px;z-index:20;transform-origin:top;transition:transform .8s cubic-bezier(.4,2,.5,1);box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;justify-content:center;align-items:center}
+.lid-ribbon{width:30px;height:100%;background:linear-gradient(to right,#ffd700,#fbc02d)}
+.lid-ribbon-hor{position:absolute;width:100%;height:25px;background:linear-gradient(to bottom,#ffd700,#fbc02d);top:50%;transform:translateY(-50%)}
+.bow{position:absolute;top:-30px;width:80px;height:40px;z-index:25}
+.bow-loop{position:absolute;width:35px;height:35px;border:6px solid #ffd700;border-radius:50% 50% 0 50%;top:0}
+.loop-left{left:0;transform:rotate(30deg);border-bottom-color:transparent;border-right-color:transparent}
+.loop-right{right:0;transform:rotate(-30deg) scaleX(-1);border-bottom-color:transparent;border-right-color:transparent}
+.bow-knot{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:12px;height:12px;background:#ffd700;border-radius:50%}
+.magic-light{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;background:#fff;border-radius:50%;opacity:0;z-index:5;transition:opacity 1s ease,box-shadow 1s ease}
+.gift-wrapper.open .gift-lid{transform:rotateX(-110deg) translateY(-15px)}
+.gift-wrapper.open .magic-light{opacity:1;box-shadow:0 0 60px 50px #fff;animation:pulseLight 1s infinite alternate}
+
+/* ALBUM CSS ADDED HERE */
+.book-container { perspective: 1500px; width: 300px; height: 420px; position: relative; margin-top: -30px; }
+.leaf { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s ease-in-out; cursor: pointer; }
+.front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 0 12px 12px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; box-shadow: inset 5px 0 15px rgba(0,0,0,0.2); }
+.back { transform: rotateY(180deg); border-radius: 12px 0 0 12px; box-shadow: inset -5px 0 15px rgba(0,0,0,0.2); }
+.cover-brown { background: #5c3a21; color: #fdf5e6; border: 3px solid #3d2615; text-align: center; padding: 20px; box-sizing: border-box; flex-direction: column; }
+.cover-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; line-height: 1.2; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.leaf img { width: 100%; height: 100%; object-fit: cover; }
+.leaf.turned { transform: rotateY(-180deg); }
+.tap-hint { margin-top: 25px; font-size: 1.1rem; color: #ff69b4; animation: bounce 1s infinite alternate; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="a.mp3" type="audio/mpeg">
+</audio>
+
+<div id="screen1" class="screen active" style="background:#ffe0e9;color:#000"><div style="background:#fff;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);width:80%"><h3>💗Happy Valentine's Day Amar Priyo Lokkhi Bou💗</h3><p>Always smile like this 😊🤭</p><button class="btn-pink" onclick="startApp()">Next</button></div></div>
+<div id="screen2" class="screen"><div class="gift-wrapper" onclick="unwrapGift()"><div class="magic-light"></div><div class="gift-lid"><div class="lid-ribbon"></div><div class="lid-ribbon-hor"></div><div class="bow"><div class="bow-loop loop-left"></div><div class="bow-loop loop-right"></div><div class="bow-knot"></div></div></div><div class="gift-box-body"><div class="box-ribbon"></div></div></div><div id="pP" style="display:none;background:#ffc0cb;padding:20px;border-radius:15px;color:#000;margin-top:40px;width:80%"><p>Tumi Mantu r k hou?👀🫣</p><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">a) Bou💘🫠</button><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">b) Ordhanggini😫🙈</button><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">c) Baccha🤭🫂</button><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">d) Muummaaa🫀🥹</button></div></div>
+<div id="screen3" class="screen"><div class="packet-container"><div id="fullPacket" class="full-packet"><div style="margin-top:150px;color:gold;font-weight:700;font-size:1.4rem">SILK HEART BLUSH</div><div class="unzip-zone"><span style="font-size:11px;color:#fff;margin-left:60px">SLIDE HERE ➔</span><div id="cat" class="cat-slider">🐱👉</div></div></div><div id="grid" class="chocolate-grid"><div class="heart-mold"><div class="bubbly-heart" onclick="nextScreen(4);openPaper()"></div></div></div></div><div id="up-arrow">↑ Click Heart</div></div>
+<div id="screen4" class="screen"><div id="brownSheet" class="brown-sheet" onclick="showMsg()"><h2 id="bt1" style="display:none;font-size:.8rem;color:#ff69b4">💙HAPPY VALENTINE'S DAY MY LOVE💙</h2><p id="bt2" class="cursive" style="display:none">Priyo Poddoboti 🪷 tumi amar life a sob theke best gift... ami tomake kokhonoi harate chai naa....🫂🥹 nijer thekeo besi valo basi tomai sona🫀💖.... sob somoi tomake hasi khusi dekhte chai😌 tomake amar bou korte chai jate proti ta bochor amra aksathe Valentine's Day katate pari.....🤭🤭thank you for being in life life baby😭🫀tomakechara ami sotti osompurno......🥺🫂 alabuuuuuuuuuuuuuuuuuuuu muummmmmaaaaaa forrreeeeevvvvveeeeeerrrr aaaaannnnnddddddd eeeeevvvvveeeeeerrr❤️🧡💛💚🩵💙💜🤎🖤🩶🤍🩷💘💝💖💗💓💞💕💌💟♥️❣️❤️‍🔥</p><div id="bnxt" style="display:none;text-align:right;font-weight:700;color:#ff69b4;cursor:pointer" onclick="nextScreen(5)">Next 👉</div></div></div>
+<div id="screen5" class="screen"><div id="hint1" class="hint-text">Try korte thako sona bou jaan 🤭</div><p style="font-size:1.2rem">Akta question korte pari? 🥺👉👈</p><div class="btn-group"><button class="btn-pink" onclick="nextScreen(6)">Yes</button><button id="no1" class="btn-pink" onmouseover="moveBtn('no1','hint1')" onclick="moveBtn('no1','hint1')">No</button></div></div>
+<div id="screen6" class="screen"><div id="hint2" class="hint-text">Try korte thako sona bou jaan 🤭</div><p style="font-size:1.3rem">Will you be my Valentine Sweetheart? 👉👈</p><div class="btn-group">
+    <button class="btn-pink" onclick="showAlbum()">Yes</button>
+    <button id="no2" class="btn-pink" onmouseover="moveBtn('no2','hint2')" onclick="moveBtn('no2','hint2')">No</button></div>
+</div>
+
+<div id="screenAlbum" class="screen">
+    <div class="book-container">
+        <div class="leaf" style="z-index: 6;" onclick="turnPage(this, 1)">
+            <div class="front cover-brown">
+                <h1 class="cover-title">Our<br>memorable<br>moments</h1>
+            </div>
+            <div class="back"><img src="pic1.jpg"></div>
+        </div>
+        <div class="leaf" style="z-index: 5;" onclick="turnPage(this, 2)">
+            <div class="front"><img src="pic2.jpg"></div>
+            <div class="back"><img src="pic3.jpg"></div>
+        </div>
+        <div class="leaf" style="z-index: 4;" onclick="turnPage(this, 3)">
+            <div class="front"><img src="pic4.jpg"></div>
+            <div class="back"><img src="pic5.jpg"></div>
+        </div>
+        <div class="leaf" style="z-index: 3;" onclick="turnPage(this, 4)">
+            <div class="front"><img src="pic6.jpg"></div>
+            <div class="back"><img src="pic7.jpg"></div>
+        </div>
+        <div class="leaf" style="z-index: 2;" onclick="turnPage(this, 5)">
+            <div class="front"><img src="pic8.jpg"></div>
+            <div class="back"><img src="pic9.jpg"></div>
+        </div>
+        <div class="leaf" style="z-index: 1;" onclick="turnPage(this, 6)">
+            <div class="front"><img src="pic10.jpg"></div>
+            <div class="back cover-brown">
+                <h1 class="cover-title">Forever<br>Together</h1>
+            </div>
+        </div>
+    </div>
+    <div class="tap-hint">Tap to flip pages 📖</div>
+</div>
+
+<div id="screen7" class="screen" style="background:#fff"><div id="teddyArea" class="teddy-scene"><div class="teddy-container"><div class="main-teddy">🧸</div><div class="holding-paper"><div class="paper-text">Alabuuuuuuuuuu😁🫠</div></div><div class="teddy-paw paw-l"></div><div class="teddy-paw paw-r"></div></div></div><div id="final">💌 Happy Valentine's Day 💌</div></div>
+
+<script>
+const music=document.getElementById('bgMusic');
+function startApp(){music.play().then(()=>{console.log("Playing")}).catch(e=>{console.log("Retry");music.load();music.play()});nextScreen(2)}
+function nextScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen'+n).classList.add('active')}
+function unwrapGift(){const w=document.querySelector('.gift-wrapper');if(w.classList.contains('open'))return;w.classList.add('open');setTimeout(()=>{document.getElementById('pP').style.display='block'},1000)}
+function createHeart(){const h=document.createElement('div');h.classList.add('heart-rain');h.innerHTML='❤️';h.style.left=Math.random()*100+'vw';h.style.animationDuration=(Math.random()*2+2)+'s';document.body.appendChild(h);setTimeout(()=>{h.remove()},4000)}
+function genChoc(){const g=document.getElementById('grid');if(g.children.length>1)return;for(let i=0;i<32;i++){let s=document.createElement('div');s.className='choc-slice';g.appendChild(s)}}
+
+// ADDED SAFETY MARGINS TO PREVENT NO BUTTON GETTING STUCK OR OFF-SCREEN
+function moveBtn(bId,hId){
+    let b=document.getElementById(bId);
+    document.getElementById(hId).style.opacity="1";
+    const mX = window.innerWidth - b.offsetWidth - 20; 
+    const mY = window.innerHeight - b.offsetHeight - 20;
+    b.style.position="fixed";
+    b.style.left=Math.max(10, Math.floor(Math.random()*mX))+"px";
+    b.style.top=Math.max(10, Math.floor(Math.random()*mY))+"px";
+}
+
+// ALBUM LOGIC ADDED HERE
+function showAlbum() {
+    nextScreen('Album');
+}
+
+function turnPage(el, pageNum) {
+    if (el.classList.contains('turned')) return; // Prevents clicking backwards to keep it simple and smooth
+    el.classList.add('turned');
+    
+    // Fix z-index halfway through flip so pages stack properly on the left
+    setTimeout(() => {
+        el.style.zIndex = pageNum;
+    }, 400);
+
+    // If it's the last page, wait a moment then go to the final Valentine screen
+    if (pageNum === 6) {
+        setTimeout(() => {
+            handleYes();
+        }, 1200);
+    }
+}
+
+// ORIGINAL FINAL SCREEN LOGIC UNTOUCHED
+function handleYes(){var d=5000,e=Date.now()+d;var i=setInterval(function(){var t=e-Date.now();if(t<=0)return clearInterval(i);confetti({particleCount:50*(t/d),origin:{x:Math.random(),y:Math.random()-.2}})},250);setTimeout(showTeddy,500)}
+function showTeddy(){nextScreen(7);setInterval(createHeart,200);setTimeout(()=>{document.getElementById('screen7').style.background='#000';document.getElementById('teddyArea').style.display='none';document.getElementById('final').style.display='block'},4000)}
+
+let cat=document.getElementById('cat'),isD=false;cat.addEventListener('mousedown',()=>isD=true);cat.addEventListener('touchstart',()=>isD=true);window.addEventListener('mouseup',()=>isD=false);window.addEventListener('touchend',()=>isD=false);window.addEventListener('mousemove',e=>handleSwipe(e.clientX));window.addEventListener('touchmove',e=>handleSwipe(e.touches[0].clientX));
+function handleSwipe(x){if(!isD)return;let b=document.querySelector('.unzip-zone').getBoundingClientRect();let p=((x-b.left)/b.width)*100;if(p>=0&&p<=90)cat.style.left=p+"%";if(p>85){isD=false;document.getElementById('fullPacket').style.transform='translateY(-110%)';setTimeout(()=>{document.getElementById('up-arrow').style.display='block'},800)}}
+function openPaper(){setTimeout(()=>{document.getElementById('brownSheet').style.transform='scale(1)'},200)}
+function showMsg(){document.getElementById('bt1').style.display='block';document.getElementById('bt2').style.display='block';document.getElementById('bnxt').style.display='block'}
+</script>
+</body>
+</html>
