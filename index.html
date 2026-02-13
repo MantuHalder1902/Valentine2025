@@ -6,7 +6,7 @@
 <title>For My Love</title>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600&family=Great+Vibes&display=swap');
 body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;height:100vh;background:#000;font-family:'Poppins',sans-serif;overflow:hidden;touch-action:none}
 .screen{display:none;flex-direction:column;align-items:center;width:100%;height:100%;justify-content:center;position:absolute;color:#fff;text-align:center;z-index:10}
 .active{display:flex}
@@ -17,16 +17,53 @@ body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;h
 .full-packet{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(145deg,#4b0082,#6a0dad);z-index:100;transition:transform 1.2s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;align-items:center}
 .unzip-zone{width:85%;height:55px;background:rgba(0,0,0,.4);margin-top:80px;position:relative;border-radius:30px;border:2px dashed gold;display:flex;align-items:center}
 .cat-slider{position:absolute;left:5px;font-size:30px;cursor:pointer;z-index:110}
-.chocolate-grid{position:absolute;top:0;left:0;width:100%;height:100%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(8,1fr);gap:6px;padding:15px;background:#4d2600;box-sizing:border-box;z-index:10}
-.choc-slice{background:#5d2e00;border-radius:6px;box-shadow:inset -3px -3px 6px rgba(0,0,0,.6)}
-.heart-mold{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;background:#2b1600;border-radius:50%;display:flex;justify-content:center;align-items:center;z-index:50;box-shadow:inset 0 0 25px #000;border:4px solid #3d1f00}
-.bubbly-heart{width:32px;height:32px;background:#ffb6c1;clip-path:path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');transform:scale(5.5);animation:rotateSilk 4s ease-in-out infinite;cursor:pointer}
+
+/* PERFECTED CHOCOLATE GRID AND SLICES */
+.chocolate-grid{position:absolute;top:0;left:0;width:100%;height:100%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto repeat(7,1fr);gap:8px;padding:20px;background:#381a00;box-sizing:border-box;z-index:10}
+.choc-slice{background:linear-gradient(135deg,#6b3400,#4a2400);border-radius:6px;box-shadow:inset 2px 2px 4px rgba(255,255,255,.15),inset -3px -3px 6px rgba(0,0,0,.6),2px 2px 5px rgba(0,0,0,.8);border:1px solid #2b1400}
+
+.heart-mold{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;background:none;border-radius:0;display:flex;justify-content:center;align-items:center;z-index:50}
+.bubbly-heart-svg{animation:pulseHeart 1.5s infinite alternate;cursor:pointer;filter:drop-shadow(0 0 15px rgba(255,182,193,0.8))}
 .btn-group{display:flex;gap:40px;justify-content:center;margin-top:30px;position:relative;width:100%;height:60px}
 .hint-text{color:#ff69b4;font-size:1rem;height:20px;opacity:0;transition:.3s;margin-bottom:5px;font-weight:700}
 #up-arrow{font-size:40px;color:pink;animation:bounce 1s infinite;display:none;margin-top:15px}
-.brown-sheet{background:#fdf5e6;color:#3d2b1f;padding:25px;width:85%;border-radius:10px;transform:scale(0);transition:.8s}
+
+/* PERFECTED FOLD/UNFOLD ANIMATION (Vaj Khola) */
+#screen4 { perspective: 1000px; }
+.brown-sheet{
+    background:#fdf5e6;color:#3d2b1f;padding:25px;width:85%;border-radius:5px;
+    transform: scaleY(0.01) scaleX(0.9); /* Starts flat like a folded line */
+    transform-origin: center;
+    opacity: 0;
+    transition: transform 1.2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.8s ease-in;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.brown-sheet.unfolded {
+    transform: scaleY(1) scaleX(1); /* Unfolds fully */
+    opacity: 1;
+}
+
 .cursive{font-family:'Dancing Script',cursive;font-size:1.3rem}
-#final{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.8rem;color:#fff;white-space:nowrap;z-index:10000;text-shadow:0 0 10px #ff69b4,0 0 20px #ff69b4,0 0 40px #ff1493;animation:smoothRiseZoom 3.5s forwards,glowPulse 2s infinite alternate 3.5s}
+
+/* PERFECTED FINAL TEXT FOR MOBILE SCREEN - Fixed 1 Line Wrapping */
+#final{
+    display:none;
+    position:fixed;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size: clamp(1.8rem, 6vw, 2.2rem); /* Adapts to screen smoothly */
+    width: max-content; /* Keeps text in one block */
+    white-space: nowrap; /* Forces emojis to stay on the same single line */
+    text-align: center;
+    font-family: 'Great Vibes', cursive; color:#fff;z-index:10000;
+    text-shadow:0 0 10px #ff69b4,0 0 20px #ff69b4;
+    animation:smoothRiseZoom 3s cubic-bezier(0.22, 1, 0.36, 1) forwards, glowPulse 2s infinite alternate 3s;
+}
+@keyframes smoothRiseZoom {
+    0% { top: 60%; transform: translate(-50%, 0%) scale(0.6); opacity: 0; }
+    100% { top: 50%; transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
 .teddy-scene{position:relative;width:100%;height:450px;display:flex;justify-content:center;align-items:center}
 .teddy-container{position:relative;width:360px;height:360px;display:flex;justify-content:center;align-items:center}
 .main-teddy{font-size:260px;position:absolute;z-index:1}
@@ -49,8 +86,6 @@ body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;h
 .magic-light{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;background:#fff;border-radius:50%;opacity:0;z-index:5;transition:opacity 1s ease,box-shadow 1s ease}
 .gift-wrapper.open .gift-lid{transform:rotateX(-110deg) translateY(-15px)}
 .gift-wrapper.open .magic-light{opacity:1;box-shadow:0 0 60px 50px #fff;animation:pulseLight 1s infinite alternate}
-
-/* ALBUM CSS ADDED HERE */
 .book-container { perspective: 1500px; width: 300px; height: 420px; position: relative; margin-top: -30px; }
 .leaf { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s ease-in-out; cursor: pointer; }
 .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 0 12px 12px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; box-shadow: inset 5px 0 15px rgba(0,0,0,0.2); }
@@ -60,6 +95,28 @@ body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;h
 .leaf img { width: 100%; height: 100%; object-fit: cover; }
 .leaf.turned { transform: rotateY(-180deg); }
 .tap-hint { margin-top: 25px; font-size: 1.1rem; color: #ff69b4; animation: bounce 1s infinite alternate; font-weight: bold; }
+@keyframes glowPulse {
+    0% { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4; transform: translate(-50%, -50%) scale(1); }
+    100% { text-shadow: 0 0 20px #ff69b4, 0 0 35px #ff1493; transform: translate(-50%, -50%) scale(1.05); }
+}
+@keyframes pulseHeart { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+#kissOverlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 5rem; z-index: 10000; pointer-events: none; animation: flyToScreen 1s forwards ease-in-out; }
+#kissOverlay.kiss-mode { animation: kissSmack 1.5s forwards ease-in-out; }
+@keyframes flyToScreen { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2); opacity: 1; } }
+@keyframes kissSmack { 0% { transform: translate(-50%, -50%) scale(2); opacity: 1; } 50% { transform: translate(-50%, -50%) scale(4); opacity: 1; filter: drop-shadow(0 0 20px red); } 100% { transform: translate(-50%, -50%) scale(6); opacity: 0; filter: drop-shadow(0 0 50px red); } }
+#exitMemo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; display: flex; justify-content: center; align-items: center; animation: fadeIn 0.5s forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* PETALS CSS */
+.petal-rain {
+    position: fixed; top: -10%; width: 25px; height: 25px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 33.73 46.28'%3E%3Cpath d='M33.73 23.14c0 12.78-7.55 23.14-16.86 23.14S0 35.92 0 23.14 16.86 0 16.86 0s16.87 10.36 16.87 23.14z' fill='%23e91e63'/%3E%3Cpath d='M16.87 46.28C7.56 46.28 0 35.92 0 23.14S16.87 0 16.87 0v46.28z' fill='%23c2185b'/%3E%3C/svg%3E");
+    background-size: contain; background-repeat: no-repeat;
+    user-select: none; z-index: 9999!important; animation: fallPetal linear forwards; pointer-events: none;
+}
+@keyframes fallPetal {
+    to { transform: translateY(110vh) rotate(720deg) translateX(20px); opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -70,8 +127,35 @@ body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;h
 
 <div id="screen1" class="screen active" style="background:#ffe0e9;color:#000"><div style="background:#fff;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);width:80%"><h3>💗Happy Valentine's Day Amar Priyo Lokkhi Bou💗</h3><p>Always smile like this 😊🤭</p><button class="btn-pink" onclick="startApp()">Next</button></div></div>
 <div id="screen2" class="screen"><div class="gift-wrapper" onclick="unwrapGift()"><div class="magic-light"></div><div class="gift-lid"><div class="lid-ribbon"></div><div class="lid-ribbon-hor"></div><div class="bow"><div class="bow-loop loop-left"></div><div class="bow-loop loop-right"></div><div class="bow-knot"></div></div></div><div class="gift-box-body"><div class="box-ribbon"></div></div></div><div id="pP" style="display:none;background:#ffc0cb;padding:20px;border-radius:15px;color:#000;margin-top:40px;width:80%"><p>Tumi Mantu r k hou?👀🫣</p><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">a) Bou💘🫠</button><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">b) Ordhanggini😫🙈</button><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">c) Baccha🤭🫂</button><button class="btn-pink" style="background:#fff;color:#000;display:block;margin:8px auto;width:180px" onclick="nextScreen(3);genChoc()">d) Muummaaa🫀🥹</button></div></div>
-<div id="screen3" class="screen"><div class="packet-container"><div id="fullPacket" class="full-packet"><div style="margin-top:150px;color:gold;font-weight:700;font-size:1.4rem">SILK HEART BLUSH</div><div class="unzip-zone"><span style="font-size:11px;color:#fff;margin-left:60px">SLIDE HERE ➔</span><div id="cat" class="cat-slider">🐱👉</div></div></div><div id="grid" class="chocolate-grid"><div class="heart-mold"><div class="bubbly-heart" onclick="nextScreen(4);openPaper()"></div></div></div></div><div id="up-arrow">↑ Click Heart</div></div>
-<div id="screen4" class="screen"><div id="brownSheet" class="brown-sheet" onclick="showMsg()"><h2 id="bt1" style="display:none;font-size:.8rem;color:#ff69b4">💙HAPPY VALENTINE'S DAY MY LOVE💙</h2><p id="bt2" class="cursive" style="display:none">Priyo Poddoboti 🪷 tumi amar life a sob theke best gift... ami tomake kokhonoi harate chai naa....🫂🥹 nijer thekeo besi valo basi tomai sona🫀💖.... sob somoi tomake hasi khusi dekhte chai😌 tomake amar bou korte chai jate proti ta bochor amra aksathe Valentine's Day katate pari.....🤭🤭thank you for being in life life baby😭🫀tomakechara ami sotti osompurno......🥺🫂 alabuuuuuuuuuuuuuuuuuuuu muummmmmaaaaaa forrreeeeevvvvveeeeeerrrr aaaaannnnnddddddd eeeeevvvvveeeeeerrr❤️🧡💛💚🩵💙💜🤎🖤🩶🤍🩷💘💝💖💗💓💞💕💌💟♥️❣️❤️‍🔥</p><div id="bnxt" style="display:none;text-align:right;font-weight:700;color:#ff69b4;cursor:pointer" onclick="nextScreen(5)">Next 👉</div></div></div>
+<div id="screen3" class="screen">
+    <div class="packet-container">
+        <div id="fullPacket" class="full-packet"><div style="margin-top:150px;color:gold;font-weight:700;font-size:1.4rem">SILK HEART BLUSH</div><div class="unzip-zone"><span style="font-size:11px;color:#fff;margin-left:60px">SLIDE HERE ➔</span><div id="cat" class="cat-slider">🐱👉</div></div></div>
+        <div id="grid" class="chocolate-grid">
+            <div style="grid-column: span 4; text-align: center; color: #ffb6c1; font-family: 'Dancing Script', cursive; font-size: 1.5rem; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">💕this is for you my 💕</div>
+            <div class="heart-mold">
+                <svg viewBox="0 0 100 100" style="position:absolute; width: 170px; height: 170px; filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));">
+                    <path d="M50 95 C 10 65 0 35 15 15 C 25 5 50 20 50 20 C 50 20 75 5 85 15 C 100 35 90 65 50 95" fill="#2b1600" stroke="#3d1f00" stroke-width="3"/>
+                </svg>
+                <svg class="bubbly-heart-svg" viewBox="0 0 100 100" style="position:relative; width: 100px; height: 100px; z-index: 2; " onclick="triggerKiss()">
+                    <defs>
+                        <radialGradient id="grad1" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#ffffff" /><stop offset="15%" stop-color="#ffb6c1" /><stop offset="60%" stop-color="#ff1493" /><stop offset="100%" stop-color="#8b0000" /></radialGradient>
+                    </defs>
+                    <path d="M50 95 C 10 65 0 35 15 15 C 25 5 50 20 50 20 C 50 20 75 5 85 15 C 100 35 90 65 50 95" fill="url(#grad1)"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div id="up-arrow">↑ Click Heart</div>
+</div>
+
+<div id="screen4" class="screen">
+    <div id="brownSheet" class="brown-sheet" onclick="showMsg()">
+        <h2 id="bt1" style="display:none;font-size:.8rem;color:#ff69b4">💙HAPPY VALENTINE'S DAY MY LOVE💙</h2>
+        <p id="bt2" class="cursive" style="display:none">Priyo Poddoboti 🪷 tumi amar life a sob theke best gift... ami tomake kokhonoi harate chai naa....🫂🥹 nijer thekeo besi valo basi tomai sona🫀💖.... sob somoi tomake hasi khusi dekhte chai😌 tomake amar bou korte chai jate proti ta bochor amra aksathe Valentine's Day katate pari.....🤭🤭thank you for being in life life baby😭🫀tomakechara ami sotti osompurno......🥺🫂 alabuuuuuuuuuuuuuuuuuuuu muummmmmaaaaaa forrreeeeevvvvveeeeeerrrr aaaaannnnnddddddd eeeeevvvvveeeeeerrr❤️🧡💛💚🩵💙💜🤎🖤🩶🤍🩷💘💝💖💗💓💞💕💌💟♥️❣️❤️‍🔥</p>
+        <div id="bnxt" style="display:none;text-align:right;font-weight:700;color:#ff69b4;cursor:pointer" onclick="nextScreen(5)">Next 👉</div>
+    </div>
+</div>
+
 <div id="screen5" class="screen"><div id="hint1" class="hint-text">Try korte thako sona bou jaan 🤭</div><p style="font-size:1.2rem">Akta question korte pari? 🥺👉👈</p><div class="btn-group"><button class="btn-pink" onclick="nextScreen(6)">Yes</button><button id="no1" class="btn-pink" onmouseover="moveBtn('no1','hint1')" onclick="moveBtn('no1','hint1')">No</button></div></div>
 <div id="screen6" class="screen"><div id="hint2" class="hint-text">Try korte thako sona bou jaan 🤭</div><p style="font-size:1.3rem">Will you be my Valentine Sweetheart? 👉👈</p><div class="btn-group">
     <button class="btn-pink" onclick="showAlbum()">Yes</button>
@@ -80,64 +164,17 @@ body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;h
 
 <div id="screenAlbum" class="screen">
     <div class="book-container">
-        
-        <div class="leaf" style="z-index: 11;" onclick="turnPage(this, 1)">
-            <div class="front cover-brown">
-                <h1 class="cover-title">Our<br>memorable<br>moments</h1>
-            </div>
-            <div class="back"></div> </div>
-
-        <div class="leaf" style="z-index: 10;" onclick="turnPage(this, 2)">
-            <div class="front"><img src="pic1.jpg"></div>
-            <div class="back"></div> </div>
-
-        <div class="leaf" style="z-index: 9;" onclick="turnPage(this, 3)">
-            <div class="front"><img src="pic2.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 8;" onclick="turnPage(this, 4)">
-            <div class="front"><img src="pic3.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 7;" onclick="turnPage(this, 5)">
-            <div class="front"><img src="pic4.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 6;" onclick="turnPage(this, 6)">
-            <div class="front"><img src="pic5.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 5;" onclick="turnPage(this, 7)">
-            <div class="front"><img src="pic6.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 4;" onclick="turnPage(this, 8)">
-            <div class="front"><img src="pic7.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 3;" onclick="turnPage(this, 9)">
-            <div class="front"><img src="pic8.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 2;" onclick="turnPage(this, 10)">
-            <div class="front"><img src="pic9.jpg"></div>
-            <div class="back"></div>
-        </div>
-
-        <div class="leaf" style="z-index: 1;" onclick="turnPage(this, 11)">
-            <div class="front"><img src="pic10.jpg"></div>
-            <div class="back cover-brown">
-                <h1 class="cover-title">Forever<br>Together</h1>
-            </div>
-        </div>
-
+        <div class="leaf" style="z-index: 11;" onclick="turnPage(this, 1)"><div class="front cover-brown"><h1 class="cover-title">Our<br>memorable<br>moments</h1></div><div class="back"></div> </div>
+        <div class="leaf" style="z-index: 10;" onclick="turnPage(this, 2)"><div class="front"><img src="pic1.jpg"></div><div class="back"></div> </div>
+        <div class="leaf" style="z-index: 9;" onclick="turnPage(this, 3)"><div class="front"><img src="pic2.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 8;" onclick="turnPage(this, 4)"><div class="front"><img src="pic3.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 7;" onclick="turnPage(this, 5)"><div class="front"><img src="pic4.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 6;" onclick="turnPage(this, 6)"><div class="front"><img src="pic5.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 5;" onclick="turnPage(this, 7)"><div class="front"><img src="pic6.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 4;" onclick="turnPage(this, 8)"><div class="front"><img src="pic7.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 3;" onclick="turnPage(this, 9)"><div class="front"><img src="pic8.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 2;" onclick="turnPage(this, 10)"><div class="front"><img src="pic9.jpg"></div><div class="back"></div></div>
+        <div class="leaf" style="z-index: 1;" onclick="turnPage(this, 11)"><div class="front"><img src="pic10.jpg"></div><div class="back cover-brown"><h1 class="cover-title">Forever<br>Together</h1></div></div>
     </div>
     <div class="tap-hint">Tap to flip pages 📖</div>
 </div>
@@ -150,45 +187,56 @@ function startApp(){music.play().then(()=>{console.log("Playing")}).catch(e=>{co
 function nextScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen'+n).classList.add('active')}
 function unwrapGift(){const w=document.querySelector('.gift-wrapper');if(w.classList.contains('open'))return;w.classList.add('open');setTimeout(()=>{document.getElementById('pP').style.display='block'},1000)}
 function createHeart(){const h=document.createElement('div');h.classList.add('heart-rain');h.innerHTML='❤️';h.style.left=Math.random()*100+'vw';h.style.animationDuration=(Math.random()*2+2)+'s';document.body.appendChild(h);setTimeout(()=>{h.remove()},4000)}
-function genChoc(){const g=document.getElementById('grid');if(g.children.length>1)return;for(let i=0;i<32;i++){let s=document.createElement('div');s.className='choc-slice';g.appendChild(s)}}
+function genChoc(){const g=document.getElementById('grid');if(g.children.length>2)return;for(let i=0;i<28;i++){let s=document.createElement('div');s.className='choc-slice';g.appendChild(s)}}
 
 function moveBtn(bId,hId){
     let b=document.getElementById(bId);
     document.getElementById(hId).style.opacity="1";
     const mX = window.innerWidth - b.offsetWidth - 20; 
     const mY = window.innerHeight - b.offsetHeight - 20;
-    b.style.position="fixed";
-    b.style.left=Math.max(10, Math.floor(Math.random()*mX))+"px";
-    b.style.top=Math.max(10, Math.floor(Math.random()*mY))+"px";
+    b.style.position="fixed";b.style.left=Math.max(10, Math.floor(Math.random()*mX))+"px";b.style.top=Math.max(10, Math.floor(Math.random()*mY))+"px";
 }
-
-function showAlbum() {
-    nextScreen('Album');
-}
-
-// UPDATED TURN PAGE FUNCTION
-function turnPage(el, pageNum) {
-    if (el.classList.contains('turned')) return; 
-    el.classList.add('turned');
-    
-    setTimeout(() => {
-        el.style.zIndex = pageNum;
-    }, 400);
-
-    // Ekhane condition 6 theke 11 kora holo
-    if (pageNum === 11) {
-        setTimeout(() => {
-            handleYes();
-        }, 1200);
-    }
-}
-
+function showAlbum() { nextScreen('Album'); }
+function turnPage(el, pageNum) { if (el.classList.contains('turned')) return; el.classList.add('turned'); setTimeout(() => { el.style.zIndex = pageNum; }, 400); if (pageNum === 11) { setTimeout(() => { handleYes(); }, 1200); }}
 function handleYes(){var d=5000,e=Date.now()+d;var i=setInterval(function(){var t=e-Date.now();if(t<=0)return clearInterval(i);confetti({particleCount:50*(t/d),origin:{x:Math.random(),y:Math.random()-.2}})},250);setTimeout(showTeddy,500)}
-function showTeddy(){nextScreen(7);setInterval(createHeart,200);setTimeout(()=>{document.getElementById('screen7').style.background='#000';document.getElementById('teddyArea').style.display='none';document.getElementById('final').style.display='block'},4000)}
-
+function showTeddy(){
+    nextScreen(7);setInterval(createHeart,200);
+    setTimeout(()=>{document.getElementById('screen7').style.background='#000';document.getElementById('teddyArea').style.display='none';document.getElementById('final').style.display='block';
+        setTimeout(() => {
+            const memo = document.createElement('div'); memo.id = "exitMemo";
+            memo.innerHTML = `<div style="background:#fff;color:#000;padding:30px;border-radius:15px;text-align:center;box-shadow:0 10px 30px #ff69b4;width:80%;max-width:350px;"><h3 style="margin-top:0;">Do you want to exit, my love? 🥺</h3><div style="display:flex;justify-content:space-around;margin-top:20px;"><button class="btn-pink" style="margin-top:0;width:100px;" onclick="window.close(); window.location.href='about:blank';">Yes</button><button class="btn-pink" style="margin-top:0;background:#ccc;color:#000;width:100px;" onclick="document.getElementById('exitMemo').remove()">No</button></div></div>`;
+            document.body.appendChild(memo);
+        }, 10000);
+    }, 4000);
+}
 let cat=document.getElementById('cat'),isD=false;cat.addEventListener('mousedown',()=>isD=true);cat.addEventListener('touchstart',()=>isD=true);window.addEventListener('mouseup',()=>isD=false);window.addEventListener('touchend',()=>isD=false);window.addEventListener('mousemove',e=>handleSwipe(e.clientX));window.addEventListener('touchmove',e=>handleSwipe(e.touches[0].clientX));
 function handleSwipe(x){if(!isD)return;let b=document.querySelector('.unzip-zone').getBoundingClientRect();let p=((x-b.left)/b.width)*100;if(p>=0&&p<=90)cat.style.left=p+"%";if(p>85){isD=false;document.getElementById('fullPacket').style.transform='translateY(-110%)';setTimeout(()=>{document.getElementById('up-arrow').style.display='block'},800)}}
-function openPaper(){setTimeout(()=>{document.getElementById('brownSheet').style.transform='scale(1)'},200)}
+
+function openPaper(){
+    setTimeout(()=>{
+        document.getElementById('brownSheet').classList.add('unfolded');
+        
+        let petalInterval = setInterval(createPetal, 250);
+        setTimeout(() => { clearInterval(petalInterval); }, 5000);
+        
+    }, 200);
+}
+
+function createPetal(){
+    const p = document.createElement('div');
+    p.classList.add('petal-rain');
+    p.style.left = Math.random() * 95 + 'vw';
+    p.style.animationDuration = (Math.random() * 2 + 3) + 's';
+    p.style.transform = `rotate(${Math.random() * 360}deg)`;
+    document.body.appendChild(p);
+    setTimeout(() => { p.remove() }, 5000);
+}
+
+function triggerKiss() {
+    const kissOverlay = document.createElement('div'); kissOverlay.id = 'kissOverlay'; kissOverlay.innerHTML = '😘'; document.body.appendChild(kissOverlay);
+    setTimeout(() => { kissOverlay.innerHTML = '💋'; kissOverlay.classList.add('kiss-mode'); }, 1000);
+    setTimeout(() => { kissOverlay.remove(); nextScreen(4); openPaper(); }, 2500);
+}
 function showMsg(){document.getElementById('bt1').style.display='block';document.getElementById('bt2').style.display='block';document.getElementById('bnxt').style.display='block'}
 </script>
 </body>
