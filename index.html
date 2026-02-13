@@ -80,34 +80,64 @@ body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;h
 
 <div id="screenAlbum" class="screen">
     <div class="book-container">
-        <div class="leaf" style="z-index: 6;" onclick="turnPage(this, 1)">
+        
+        <div class="leaf" style="z-index: 11;" onclick="turnPage(this, 1)">
             <div class="front cover-brown">
                 <h1 class="cover-title">Our<br>memorable<br>moments</h1>
             </div>
-            <div class="back"><img src="pic1.jpg"></div>
-        </div>
-        <div class="leaf" style="z-index: 5;" onclick="turnPage(this, 2)">
+            <div class="back"></div> </div>
+
+        <div class="leaf" style="z-index: 10;" onclick="turnPage(this, 2)">
+            <div class="front"><img src="pic1.jpg"></div>
+            <div class="back"></div> </div>
+
+        <div class="leaf" style="z-index: 9;" onclick="turnPage(this, 3)">
             <div class="front"><img src="pic2.jpg"></div>
-            <div class="back"><img src="pic3.jpg"></div>
+            <div class="back"></div>
         </div>
-        <div class="leaf" style="z-index: 4;" onclick="turnPage(this, 3)">
+
+        <div class="leaf" style="z-index: 8;" onclick="turnPage(this, 4)">
+            <div class="front"><img src="pic3.jpg"></div>
+            <div class="back"></div>
+        </div>
+
+        <div class="leaf" style="z-index: 7;" onclick="turnPage(this, 5)">
             <div class="front"><img src="pic4.jpg"></div>
-            <div class="back"><img src="pic5.jpg"></div>
+            <div class="back"></div>
         </div>
-        <div class="leaf" style="z-index: 3;" onclick="turnPage(this, 4)">
+
+        <div class="leaf" style="z-index: 6;" onclick="turnPage(this, 6)">
+            <div class="front"><img src="pic5.jpg"></div>
+            <div class="back"></div>
+        </div>
+
+        <div class="leaf" style="z-index: 5;" onclick="turnPage(this, 7)">
             <div class="front"><img src="pic6.jpg"></div>
-            <div class="back"><img src="pic7.jpg"></div>
+            <div class="back"></div>
         </div>
-        <div class="leaf" style="z-index: 2;" onclick="turnPage(this, 5)">
+
+        <div class="leaf" style="z-index: 4;" onclick="turnPage(this, 8)">
+            <div class="front"><img src="pic7.jpg"></div>
+            <div class="back"></div>
+        </div>
+
+        <div class="leaf" style="z-index: 3;" onclick="turnPage(this, 9)">
             <div class="front"><img src="pic8.jpg"></div>
-            <div class="back"><img src="pic9.jpg"></div>
+            <div class="back"></div>
         </div>
-        <div class="leaf" style="z-index: 1;" onclick="turnPage(this, 6)">
+
+        <div class="leaf" style="z-index: 2;" onclick="turnPage(this, 10)">
+            <div class="front"><img src="pic9.jpg"></div>
+            <div class="back"></div>
+        </div>
+
+        <div class="leaf" style="z-index: 1;" onclick="turnPage(this, 11)">
             <div class="front"><img src="pic10.jpg"></div>
             <div class="back cover-brown">
                 <h1 class="cover-title">Forever<br>Together</h1>
             </div>
         </div>
+
     </div>
     <div class="tap-hint">Tap to flip pages 📖</div>
 </div>
@@ -122,7 +152,6 @@ function unwrapGift(){const w=document.querySelector('.gift-wrapper');if(w.class
 function createHeart(){const h=document.createElement('div');h.classList.add('heart-rain');h.innerHTML='❤️';h.style.left=Math.random()*100+'vw';h.style.animationDuration=(Math.random()*2+2)+'s';document.body.appendChild(h);setTimeout(()=>{h.remove()},4000)}
 function genChoc(){const g=document.getElementById('grid');if(g.children.length>1)return;for(let i=0;i<32;i++){let s=document.createElement('div');s.className='choc-slice';g.appendChild(s)}}
 
-// ADDED SAFETY MARGINS TO PREVENT NO BUTTON GETTING STUCK OR OFF-SCREEN
 function moveBtn(bId,hId){
     let b=document.getElementById(bId);
     document.getElementById(hId).style.opacity="1";
@@ -133,29 +162,27 @@ function moveBtn(bId,hId){
     b.style.top=Math.max(10, Math.floor(Math.random()*mY))+"px";
 }
 
-// ALBUM LOGIC ADDED HERE
 function showAlbum() {
     nextScreen('Album');
 }
 
+// UPDATED TURN PAGE FUNCTION
 function turnPage(el, pageNum) {
-    if (el.classList.contains('turned')) return; // Prevents clicking backwards to keep it simple and smooth
+    if (el.classList.contains('turned')) return; 
     el.classList.add('turned');
     
-    // Fix z-index halfway through flip so pages stack properly on the left
     setTimeout(() => {
         el.style.zIndex = pageNum;
     }, 400);
 
-    // If it's the last page, wait a moment then go to the final Valentine screen
-    if (pageNum === 6) {
+    // Ekhane condition 6 theke 11 kora holo
+    if (pageNum === 11) {
         setTimeout(() => {
             handleYes();
         }, 1200);
     }
 }
 
-// ORIGINAL FINAL SCREEN LOGIC UNTOUCHED
 function handleYes(){var d=5000,e=Date.now()+d;var i=setInterval(function(){var t=e-Date.now();if(t<=0)return clearInterval(i);confetti({particleCount:50*(t/d),origin:{x:Math.random(),y:Math.random()-.2}})},250);setTimeout(showTeddy,500)}
 function showTeddy(){nextScreen(7);setInterval(createHeart,200);setTimeout(()=>{document.getElementById('screen7').style.background='#000';document.getElementById('teddyArea').style.display='none';document.getElementById('final').style.display='block'},4000)}
 
